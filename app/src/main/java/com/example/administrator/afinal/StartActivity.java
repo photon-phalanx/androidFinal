@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.logging.LogRecord;
 
 public class StartActivity extends AppCompatActivity {
     private TextView leftTime;
@@ -17,7 +16,7 @@ public class StartActivity extends AppCompatActivity {
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            leftTime.setText(new Integer(msg.arg1).toString());
+            leftTime.setText(Integer.toString(msg.arg1));
         }
     };
     @Override
