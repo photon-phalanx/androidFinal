@@ -40,9 +40,9 @@ public class StartActivity extends AppCompatActivity {
             if (msg.arg1 != 0) {
                 leftTime.setText(Integer.toString(msg.arg1));
             } else {
-                if (historyCount < count) {
+                if (historyCount < mark) {
                     editor = preferences.edit();
-                    editor.putInt("historyCount", count);
+                    editor.putInt("historyCount", mark);
                     editor.commit();
                 }
                 Intent intent = new Intent(StartActivity.this, FinishActivity.class);
@@ -98,7 +98,7 @@ public class StartActivity extends AppCompatActivity {
                 if (count == 0) return;
                 else {
                     wordEditText.setSelection(wordEditText.getText().length());
-                    cursor = db.query("Note", null, "words=?", new String[]{wordEditText.getText().toString()}, null, null, null);
+                    cursor = db.rawQuery("select * from Note where words= '" + wordEditText.getText().toString() + "' COLLATE NOCASE", null);
                     if (cursor.moveToFirst()) {
                         word = cursor.getString(0); // 这里其实没有必要再做一遍，不过写了就懒得改了
                         cursor.close();
@@ -106,8 +106,12 @@ public class StartActivity extends AppCompatActivity {
                             Boolean flag = false;
                             timer.cancel();
                             set.add(word);
-                            cursor = db.rawQuery("select * from Note where words like '" + word.charAt(word.length() - 1) + "%'", null);
-                            while (cursor.moveToNext()) {
+                            cursor = db.rawQuery("select * from Note where words like '" + word.charAt(word.length() - 1) + "%' COLLATE NOCASE", null);
+                            int tmpCount = cursor.getCount();
+                            int tmpRandom = (int) (Math.random() * tmpCount);
+                            cursor.moveToNext();
+                            cursor.move(tmpRandom - 1);
+                            for (int i = tmpRandom; i < tmpCount ; i++) {
                                 newWord = cursor.getString(0);
                                 if (!set.contains(newWord)) {
                                     set.add(newWord);
@@ -120,6 +124,25 @@ public class StartActivity extends AppCompatActivity {
                                     flag = true;
                                     break;
                                 }
+                                cursor.moveToNext();
+                            }
+                            if (!flag) {
+                                cursor.moveToFirst();
+                                for (int i = 0; i < tmpRandom; i++) {
+                                    newWord = cursor.getString(0);
+                                    if (!set.contains(newWord)) {
+                                        set.add(newWord);
+                                        textView1.setText(textView2.getText().toString());
+                                        textView2.setText(word);
+                                        textView3.setText(newWord);
+                                        gradeIncrease();
+                                        wordEditText.setText(newWord.substring(newWord.length() - 1));
+                                        wordEditText.setSelection(1);
+                                        flag = true;
+                                        break;
+                                    }
+                                    cursor.moveToNext();
+                                }
                             }
                             if (flag) {
                                 count = 15;
@@ -128,7 +151,7 @@ public class StartActivity extends AppCompatActivity {
                             } else {
                                 // 这里应该是赢了
                                 timer.cancel();
-                                if (historyCount < count) {
+                                if (historyCount < mark) {
                                     editor = preferences.edit();
                                     editor.putInt("historyCount", mark);
                                     editor.commit();

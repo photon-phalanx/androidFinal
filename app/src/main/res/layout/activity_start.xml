@@ -9,29 +9,40 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical"
-    android:background="#c1F9A4"
+    android:background="#c1Fbd4"
     tools:context="com.example.administrator.afinal.StartActivity">
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_weight="1">
         <TextView
-            android:id="@+id/grade"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="0"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="成绩"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:textSize="30dp"
             android:id="@+id/leftTime"
-            android:text="15"/>
+            android:text="15"
+            android:layout_weight="1"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:layout_weight="1">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="30dp"
+                android:gravity="right"
+                android:text="成绩:"/>
+            <TextView
+                android:id="@+id/grade"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:textSize="30dp"
+                android:text="0" />
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -48,7 +59,10 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:layout_weight="1"
-            android:text="3"/>
+            android:textSize="40dp"
+            android:layout_margin="20dp"
+            android:background="@drawable/white_shape"
+            android:text=""/>
 
         <TextView
             android:id="@+id/word2"
@@ -56,7 +70,10 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:layout_weight="1"
-            android:text="1"/>
+            android:textSize="40dp"
+            android:layout_margin="20dp"
+            android:background="@drawable/white_shape"
+            android:text=""/>
 
         <TextView
             android:id="@+id/word3"
@@ -64,7 +81,10 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:layout_weight="1"
-            android:text="2"/>
+            android:textSize="40dp"
+            android:layout_margin="20dp"
+            android:background="@drawable/white_shape"
+            android:text=""/>
     </LinearLayout>
 
     <LinearLayout
@@ -78,6 +98,7 @@
             android:gravity="center"
             android:id="@+id/editField"
             android:background="@drawable/white_shape"
+            android:textSize="40dp"
             android:layout_weight="5"/>
         <Button
             android:id="@+id/submitButton"
@@ -85,6 +106,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/shape"
+            android:textSize="40dp"
+            android:layout_marginLeft="20dp"
+            android:gravity="center"
             android:text="→"/>
     </LinearLayout>
 
