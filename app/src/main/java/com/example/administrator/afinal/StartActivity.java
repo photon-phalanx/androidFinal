@@ -1,5 +1,8 @@
 package com.example.administrator.afinal;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Handler;
@@ -28,10 +31,27 @@ public class StartActivity extends AppCompatActivity {
     private EditText wordEditText;
     private TextView textView1, textView2, textView3, grade, leftTime;
     private Button submitButton;
+    private int historyCount;
+    private SharedPreferences preferences;
+    private SharedPreferences.Editor editor;
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            leftTime.setText(Integer.toString(msg.arg1));
+            if (msg.arg1 != 0) {
+                leftTime.setText(Integer.toString(msg.arg1));
+            } else {
+                if (historyCount < count) {
+                    editor = preferences.edit();
+                    editor.putInt("historyCount", count);
+                    editor.commit();
+                }
+                Intent intent = new Intent(StartActivity.this, FinishActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putInt("mark", mark);
+                bundle.putString("reason", "暂时想不到单词了吧~");
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
         }
     };
 
@@ -39,6 +59,7 @@ public class StartActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
+        preferences = getSharedPreferences("historyCount", Context.MODE_PRIVATE);
         leftTime = (TextView) findViewById(R.id.leftTime);
         grade = (TextView) findViewById(R.id.grade);
         wordEditText = (EditText) findViewById(R.id.editField);
@@ -46,6 +67,7 @@ public class StartActivity extends AppCompatActivity {
         textView2 = (TextView) findViewById(R.id.word2);
         textView3 = (TextView) findViewById(R.id.word3);
         submitButton = (Button) findViewById(R.id.submitButton);
+        historyCount = preferences.getInt("historyCount", 0);
         db = SQLiteDatabase.openOrCreateDatabase("data/data/" + this.getPackageName() + "/databases/NotesList.sqlite3", null);
         wordEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -56,10 +78,12 @@ public class StartActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.length() == 0) {
-                    wordEditText.setText(newWord.charAt(newWord.length() - 1));
+                    wordEditText.setText(newWord.substring(newWord.length() - 1));
+                    wordEditText.setSelection(1);
                 } else if (s.charAt(0) != newWord.charAt(newWord.length() - 1)) {
                     String wholeText = newWord.substring(0, 1) + s;
                     wordEditText.setText(wholeText);
+                    wordEditText.setSelection(1);
                 }
             }
 
@@ -76,7 +100,6 @@ public class StartActivity extends AppCompatActivity {
                     wordEditText.setSelection(wordEditText.getText().length());
                     cursor = db.query("Note", null, "words=?", new String[]{wordEditText.getText().toString()}, null, null, null);
                     if (cursor.moveToFirst()) {
-                        // cursor.move(0);
                         word = cursor.getString(0); // 这里其实没有必要再做一遍，不过写了就懒得改了
                         cursor.close();
                         if (!set.contains(word)) {
@@ -92,7 +115,7 @@ public class StartActivity extends AppCompatActivity {
                                     textView2.setText(word);
                                     textView3.setText(newWord);
                                     gradeIncrease();
-                                    wordEditText.setText(newWord.charAt(newWord.length() - 1));
+                                    wordEditText.setText(newWord.substring(newWord.length() - 1));
                                     wordEditText.setSelection(1);
                                     flag = true;
                                     break;
@@ -103,7 +126,19 @@ public class StartActivity extends AppCompatActivity {
                                 timer = new Timer();
                                 doTimer();
                             } else {
-                                // TODO 这里应该是赢了
+                                // 这里应该是赢了
+                                timer.cancel();
+                                if (historyCount < count) {
+                                    editor = preferences.edit();
+                                    editor.putInt("historyCount", mark);
+                                    editor.commit();
+                                }
+                                Intent intent = new Intent(StartActivity.this, FinishActivity.class);
+                                Bundle bundle = new Bundle();
+                                bundle.putInt("mark", mark);
+                                bundle.putString("reason", "哇好厉害！ai接不出下一个词了哦~~");
+                                intent.putExtras(bundle);
+                                startActivity(intent);
                             }
                         } else {
                             Toast.makeText(getApplicationContext(), "重复啦~",
@@ -128,7 +163,7 @@ public class StartActivity extends AppCompatActivity {
             set.add(newWord);
             textView3.setText(newWord);
             cursor.close();
-            wordEditText.setText(newWord.charAt(newWord.length() - 1));
+            wordEditText.setText(newWord.substring(newWord.length() - 1));
             wordEditText.setSelection(1);
             this.doTimer();
         }
@@ -143,18 +178,14 @@ public class StartActivity extends AppCompatActivity {
         timer.schedule(new TimerTask() {
             public void run() {
                 Message msg = Message.obtain();
-                msg.arg1 = count;
                 count--;
+                msg.arg1 = count;
                 if (count > 0) {
                     handler.sendMessage(msg);
 
                 } else {
-                    // TODO 这当然逻辑上就是完全不正确的，待写
                     timer.cancel();
-                    timer = new Timer();
                     handler.sendMessage(msg);
-                    count = 15;
-                    // doTimer();
                 }
             }
         }, 1000, 1000);
