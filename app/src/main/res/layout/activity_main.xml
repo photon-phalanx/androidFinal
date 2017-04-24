@@ -11,70 +11,85 @@
     android:orientation="vertical"
     tools:context="com.example.administrator.afinal.MainActivity">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="20dp"
-        android:gravity="right">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:textSize="30dp"
-            android:text="历史最长接龙: " />
-        <TextView
-            android:id="@+id/historyCount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="30dp"
-            android:layout_gravity="right"
-            />
-    </LinearLayout>
-
-
     <ImageView
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_gravity="center"
         android:src="@drawable/a"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textSize="40sp"
+        android:layout_marginTop="20dp"
+        android:text="单词接龙 "
+        android:textColor="#77cfdb"/>
+
     <Button
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
+        android:layout_gravity="center"
         android:id="@+id/startButton"
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:textColor="#fff"
-        android:background="@drawable/shape"
+        android:background="@drawable/orange_shape"
         android:layout_marginTop="30dp"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="10dp"
         android:text="开始游戏"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="horizontal"
+        android:layout_gravity="top"
+        android:layout_marginBottom="20dp"
+        android:gravity="center">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:textSize="18sp"
+            android:text="历史最长接龙: "
+            android:textColor="#f87440"/>
+        <TextView
+            android:id="@+id/historyCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#f87440"
+            android:textSize="18sp"
+            android:layout_gravity="end"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="#ededed">
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            android:gravity="center"
-            android:layout_margin="10dp"
-            android:text="以上一单词结尾字母开始"/>
+            android:layout_margin="5dp"
+            android:text="规则:"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:textSize="20sp"
-            android:layout_margin="10dp"
-            android:text="一场游戏中单词不能重复出现"/>
+            android:layout_margin="5dp"
+            android:text="1.以上一单词结尾字母开始"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:textSize="20sp"
-            android:layout_margin="10dp"
-            android:text="每个接龙单词必须15秒内完成"/>
+            android:layout_margin="5dp"
+            android:text="2.一场游戏中单词不能重复出现"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_margin="5dp"
+            android:text="3.每个接龙单词必须15秒内完成"/>
     </LinearLayout>
 </LinearLayout>
