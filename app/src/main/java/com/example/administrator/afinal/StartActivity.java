@@ -116,7 +116,7 @@ public class StartActivity extends AppCompatActivity {
                                 newWord = cursor.getString(0);
                                 if (!set.contains(newWord)) {
                                     set.add(newWord);
-                                    textView1.setText(textView2.getText().toString());
+                                    textView1.setText(textView3.getText().toString());
                                     textView2.setText(word);
                                     textView3.setText(newWord);
                                     gradeIncrease();

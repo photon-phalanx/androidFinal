@@ -72,8 +72,7 @@
             android:layout_weight="1"
             android:textSize="40dp"
             android:layout_margin="20dp"
-            android:background="@drawable/white_shape"
-            android:text=""/>
+            android:background="@drawable/white_shape" />
 
         <TextView
             android:id="@+id/word3"
@@ -83,8 +82,7 @@
             android:layout_weight="1"
             android:textSize="40dp"
             android:layout_margin="20dp"
-            android:background="@drawable/white_shape"
-            android:text=""/>
+            android:background="@drawable/white_shape" />
     </LinearLayout>
 
     <LinearLayout
