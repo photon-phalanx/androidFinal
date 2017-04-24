@@ -104,13 +104,13 @@
             android:id="@+id/submitButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:background="@drawable/shape"
-            android:textSize="40dp"
+            android:textSize="20dp"
             android:layout_marginLeft="20dp"
             android:gravity="center"
-            android:text="→"/>
+            android:text="提交"/>
     </LinearLayout>
-
 
 </LinearLayout>

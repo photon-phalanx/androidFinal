@@ -50,6 +50,7 @@ public class StartActivity extends AppCompatActivity {
                 bundle.putInt("mark", mark);
                 bundle.putString("reason", "暂时想不到单词了吧~");
                 intent.putExtras(bundle);
+                finish();
                 startActivity(intent);
             }
         }
@@ -81,7 +82,7 @@ public class StartActivity extends AppCompatActivity {
                     wordEditText.setText(newWord.substring(newWord.length() - 1));
                     wordEditText.setSelection(1);
                 } else if (s.charAt(0) != newWord.charAt(newWord.length() - 1)) {
-                    String wholeText = newWord.substring(0, 1) + s;
+                    String wholeText = newWord.substring(newWord.length() - 1) + s;
                     wordEditText.setText(wholeText);
                     wordEditText.setSelection(1);
                 }
@@ -161,6 +162,7 @@ public class StartActivity extends AppCompatActivity {
                                 bundle.putInt("mark", mark);
                                 bundle.putString("reason", "哇好厉害！ai接不出下一个词了哦~~");
                                 intent.putExtras(bundle);
+                                finish();
                                 startActivity(intent);
                             }
                         } else {
