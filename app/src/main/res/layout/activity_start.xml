@@ -16,12 +16,24 @@
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:layout_weight="1">
         <TextView
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:id="@+id/leftTime"
+            android:text="15" />
+
+        <Button
+            android:id="@+id/musicButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="30dp"
-            android:id="@+id/leftTime"
-            android:text="15"
-            android:layout_weight="1"/>
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/orange_shape"
+            android:textColor="#fff"
+            android:textSize="20sp"
+            android:layout_marginLeft="5dp"
+            android:gravity="center"
+            android:text="播放"/>
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

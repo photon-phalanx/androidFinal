@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.media.MediaPlayer;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
@@ -30,8 +31,9 @@ public class StartActivity extends AppCompatActivity {
     private HashSet<String> set;
     private EditText wordEditText;
     private TextView textView1, textView2, textView3, grade, leftTime;
-    private Button submitButton;
+    private Button submitButton, musicButton;
     private int historyCount;
+    private MediaPlayer mediaPlayer;
     private SharedPreferences preferences;
     private SharedPreferences.Editor editor;
     private Handler handler = new Handler() {
@@ -50,6 +52,7 @@ public class StartActivity extends AppCompatActivity {
                 bundle.putInt("mark", mark);
                 bundle.putString("reason", "暂时想不到单词了吧~");
                 intent.putExtras(bundle);
+                mediaPlayer.stop();
                 finish();
                 startActivity(intent);
             }
@@ -68,6 +71,24 @@ public class StartActivity extends AppCompatActivity {
         textView2 = (TextView) findViewById(R.id.word2);
         textView3 = (TextView) findViewById(R.id.word3);
         submitButton = (Button) findViewById(R.id.submitButton);
+        musicButton = (Button) findViewById(R.id.musicButton);
+        mediaPlayer = MediaPlayer.create(this, R.raw.magnet);
+        mediaPlayer.setLooping(true);
+        mediaPlayer.start();
+        musicButton.setText("停止");
+        musicButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String text = musicButton.getText().toString();
+                if (text.equals("停止")) {
+                    mediaPlayer.pause();
+                    musicButton.setText("播放");
+                } else {
+                    mediaPlayer.start();
+                    musicButton.setText("停止");
+                }
+            }
+        });
         historyCount = preferences.getInt("historyCount", 0);
         db = SQLiteDatabase.openOrCreateDatabase("data/data/" + this.getPackageName() + "/databases/NotesList.sqlite3", null);
         wordEditText.addTextChangedListener(new TextWatcher() {
@@ -162,6 +183,7 @@ public class StartActivity extends AppCompatActivity {
                                 bundle.putInt("mark", mark);
                                 bundle.putString("reason", "哇好厉害！ai接不出下一个词了哦~~");
                                 intent.putExtras(bundle);
+                                mediaPlayer.stop();
                                 finish();
                                 startActivity(intent);
                             }
